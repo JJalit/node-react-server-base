@@ -2,6 +2,9 @@ const express = require("express");
 const app = express();
 const port = 5000;
 const bodyParser = require("body-parser");
+
+const config = require("./config/key");
+
 const { User } = require("./models/User");
 
 // application/x-www-form-urlencoded
@@ -13,20 +16,17 @@ app.use(bodyParser.json());
 // mongoose 적용하기
 const mongoose = require("mongoose");
 mongoose
-  .connect(
-    "mongodb+srv://jaeha23:dlwogk23@boilerplate.rw3qb.mongodb.net/BoilerPlate?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
-    }
-  )
+  .connect(config.mongoURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false,
+  })
   .then(() => console.log("MongoDB Connected..."))
   .catch((err) => console.log(err));
 
 app.get("/", (req, res) => {
-  res.send("Hello World! 제대로 하자");
+  res.send("Hello World! 제대로");
 });
 
 // 회원 가입 할 때 필요한 정보들을 client에서 가져오면
